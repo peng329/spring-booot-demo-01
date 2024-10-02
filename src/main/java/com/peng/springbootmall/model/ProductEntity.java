@@ -1,8 +1,7 @@
 package com.peng.springbootmall.model;
 
-import org.springframework.stereotype.Component;
+import com.peng.springbootmall.constant.ProductCategory;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -10,7 +9,7 @@ public class ProductEntity {
 
     private Integer productId;
     private String productName;
-    private String category;
+    private ProductCategory category;
     private String imageUrl;
     private Integer price;
     private Integer stock;
@@ -35,11 +34,11 @@ public class ProductEntity {
         this.productName = productName;
     }
 
-    public String getCategory() {
+    public ProductCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(ProductCategory category) {
         this.category = category;
     }
 

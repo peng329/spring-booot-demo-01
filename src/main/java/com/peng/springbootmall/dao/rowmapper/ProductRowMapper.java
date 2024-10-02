@@ -1,5 +1,6 @@
 package com.peng.springbootmall.dao.rowmapper;
 
+import com.peng.springbootmall.constant.ProductCategory;
 import com.peng.springbootmall.model.ProductEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
@@ -18,7 +19,7 @@ public class ProductRowMapper implements RowMapper<ProductEntity> {
 
         productEntity.setProductId(rs.getInt("product_id"));
         productEntity.setProductName(rs.getString("product_name"));
-        productEntity.setCategory(rs.getString("category"));
+        productEntity.setCategory(ProductCategory.valueOf(rs.getString("category")));
         productEntity.setImageUrl(rs.getString("image_url"));
         productEntity.setPrice(rs.getInt("price"));
         productEntity.setStock(rs.getInt("stock"));
