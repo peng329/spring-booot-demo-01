@@ -2,7 +2,9 @@ package com.peng.springbootmall.dao.imp;
 
 import com.peng.springbootmall.dao.ProductDao;
 import com.peng.springbootmall.dao.rowmapper.ProductRowMapper;
+import com.peng.springbootmall.dto.ProductDto;
 import com.peng.springbootmall.model.ProductEntity;
+import org.hibernate.validator.internal.engine.groups.Sequence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.sql.PreparedStatement;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +44,27 @@ public class ProductDaoImp implements ProductDao {
         }else{
             return null;
         }
+    }
+
+    @Override
+    public Integer createProduct(ProductDto productDto) {
+        String sql ="INSERT INTO product (product_name, category, image_url, price, stock, description, created_date," +
+                " last_modified_date) VALUES (:productName, :category, :imageUrl," +
+                " :price, :stock, :description, :createdDate, :lastModifiedDate)";
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("productName",productDto.getProductName());
+        map.put("category",productDto.getCategory().name());
+        map.put("imageUrl",productDto.getImageUrl());
+        map.put("price",productDto.getPrice());
+        map.put("stock",productDto.getStock());
+        map.put("description",productDto.getDescription());
+        Date now = new Date();
+        map.put("createdDate",now);
+        map.put("lastModifiedDate",now);
+
+        Integer  productId= namedParameterJdbcTemplate.update(sql, map);
+        return productId;
 
     }
 }
