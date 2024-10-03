@@ -8,7 +8,12 @@ import org.hibernate.validator.internal.engine.groups.Sequence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.SqlParameterValue;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
 import java.sql.PreparedStatement;
@@ -63,7 +68,11 @@ public class ProductDaoImp implements ProductDao {
         map.put("createdDate",now);
         map.put("lastModifiedDate",now);
 
-        Integer  productId= namedParameterJdbcTemplate.update(sql, map);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        namedParameterJdbcTemplate.update(sql,new MapSqlParameterSource(map) , keyHolder );
+
+        Integer productId = keyHolder.getKey().intValue();
         return productId;
 
     }

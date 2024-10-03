@@ -30,17 +30,17 @@ public class ProductController {
 
 
     @PostMapping("/products")
-    ResponseEntity<ProductEntity> createProduct(@RequestBody @Valid String json) throws JsonProcessingException {
+    ResponseEntity<ProductEntity> createProduct(@RequestBody @Valid ProductDto productDto)  {
 
-        ObjectMapper objectMapper= new ObjectMapper();
-        ProductDto productDto = objectMapper.readValue(json, ProductDto.class);
+//        ObjectMapper objectMapper= new ObjectMapper();
+//        ProductDto productDto = objectMapper.readValue(json, ProductDto.class);
 
         Integer productId = productService.createProduct(productDto);
 
         ProductEntity productEntity = productService.getById(productId);
 
         if(productEntity != null){
-            return ResponseEntity.status(HttpStatus.OK).body(productEntity);
+            return ResponseEntity.status(HttpStatus.CREATED).body(productEntity);
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
