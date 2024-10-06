@@ -13,4 +13,7 @@ public interface ProductService {
 
     // 創建商品
     Integer createProduct(ProductDto productDto);
+
+    // 刪除商品
+    void deleteProduct(Integer productId);
 }

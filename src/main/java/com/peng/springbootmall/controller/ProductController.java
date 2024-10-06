@@ -17,6 +17,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    // 查詢商品
     @GetMapping("/products/{productId}")
     ResponseEntity<ProductEntity> getById(@PathVariable Integer productId){
         ProductEntity productEntity = productService.getById(productId);
@@ -28,7 +29,7 @@ public class ProductController {
         }
     }
 
-
+    // 新增商品
     @PostMapping("/products")
     ResponseEntity<ProductEntity> createProduct(@RequestBody @Valid ProductDto productDto)  {
 
@@ -44,8 +45,19 @@ public class ProductController {
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-
-
     };
+
+    // 刪除商品
+    @DeleteMapping("/products/{productId}")
+    ResponseEntity<ProductEntity> deleteProduct(@PathVariable Integer productId){
+        ProductEntity productEntity = productService.getById(productId);
+        if(productEntity != null){
+            productService.deleteProduct(productId);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+    }
     
 }
