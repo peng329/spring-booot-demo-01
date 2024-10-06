@@ -50,14 +50,8 @@ public class ProductController {
     // 刪除商品
     @DeleteMapping("/products/{productId}")
     ResponseEntity<ProductEntity> deleteProduct(@PathVariable Integer productId){
-        ProductEntity productEntity = productService.getById(productId);
-        if(productEntity != null){
-            productService.deleteProduct(productId);
-            return ResponseEntity.status(HttpStatus.OK).build();
-        }else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
+        productService.deleteProduct(productId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
     
 }

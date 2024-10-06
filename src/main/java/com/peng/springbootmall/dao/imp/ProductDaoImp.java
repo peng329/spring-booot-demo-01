@@ -84,6 +84,6 @@ public class ProductDaoImp implements ProductDao {
         Map<String, Object> map = new HashMap<>();
         map.put("productId",productId);
 
-        namedParameterJdbcTemplate.update(sql,new MapSqlParameterSource(map));
+        namedParameterJdbcTemplate.update(sql,map);
     }
 }
