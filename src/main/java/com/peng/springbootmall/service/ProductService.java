@@ -16,4 +16,7 @@ public interface ProductService {
 
     // 刪除商品
     void deleteProduct(Integer productId);
+
+    //修改商品
+    void updateProductById(Integer productId, ProductDto productDto);
 }

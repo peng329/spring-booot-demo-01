@@ -16,4 +16,7 @@ public interface ProductDao {
 
     // 刪除商品
     void deleteById(Integer productId);
+
+    // 修改商品
+    void updateProductById(Integer productId, ProductDto productDto);
 }
