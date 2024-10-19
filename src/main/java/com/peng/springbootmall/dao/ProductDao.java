@@ -4,6 +4,7 @@ import com.peng.springbootmall.dto.ProductDto;
 import com.peng.springbootmall.model.ProductEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ProductDao {
@@ -19,4 +20,7 @@ public interface ProductDao {
 
     // 修改商品
     void updateProductById(Integer productId, ProductDto productDto);
+
+    //取得多筆商品
+    List<ProductEntity> getProducts();
 }

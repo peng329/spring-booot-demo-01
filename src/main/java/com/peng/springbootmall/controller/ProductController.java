@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ProductController {
     
@@ -70,4 +72,15 @@ public class ProductController {
 
     }
 
+    //取得多筆商品
+    @GetMapping("/products")
+    ResponseEntity<List<ProductEntity>> getProducts(){
+        List<ProductEntity> productEntityList = productService.getProducts();
+
+        if(productEntityList.size() != 0){
+            return ResponseEntity.status(HttpStatus.OK).body(productEntityList);
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 }

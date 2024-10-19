@@ -107,4 +107,20 @@ public class ProductDaoImp implements ProductDao {
 
         namedParameterJdbcTemplate.update(sql,map);
     }
+
+    @Override
+    public List<ProductEntity> getProducts() {
+        String sql = "select product_id, product_name, category, image_url, price, stock, description, " +
+                "created_date, last_modified_date from product";
+
+        Map<String, Object> map = new HashMap<>();
+
+        List<ProductEntity> productEntityList = namedParameterJdbcTemplate.query(sql, map, productRowMapper);
+
+        if (productEntityList.size() > 0) {
+            return productEntityList;
+        } else {
+            return null;
+        }
+    }
 }

@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class ProductServiceImpl implements ProductService {
 
@@ -34,5 +36,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void updateProductById(Integer productId, ProductDto productDto) {
         productDao.updateProductById(productId, productDto);
+    }
+
+    @Override
+    public List<ProductEntity> getProducts() {
+        return productDao.getProducts();
     }
 }
