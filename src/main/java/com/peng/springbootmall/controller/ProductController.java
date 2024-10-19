@@ -55,7 +55,7 @@ public class ProductController {
     }
 
     // 修改商品
-    @PostMapping("/products/{productId}")
+    @PutMapping("/products/{productId}")
     ResponseEntity<ProductEntity> updateProductById(@PathVariable Integer productId, @RequestBody @Valid ProductDto productDto){
 
         ProductEntity productEntity = productService.getById(productId);
