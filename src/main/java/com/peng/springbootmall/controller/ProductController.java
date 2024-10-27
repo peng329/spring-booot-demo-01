@@ -77,10 +77,12 @@ public class ProductController {
     ResponseEntity<List<ProductEntity>> getProducts(){
         List<ProductEntity> productEntityList = productService.getProducts();
 
-        if(productEntityList.size() != 0){
-            return ResponseEntity.status(HttpStatus.OK).body(productEntityList);
-        }else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+//        if(productEntityList.size() != 0){
+//            return ResponseEntity.status(HttpStatus.OK).body(productEntityList);
+//        }else{
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        }
+        //查所有的 API，就算實際資料庫沒資料，也要返回 200
+        return ResponseEntity.status(HttpStatus.OK).body(productEntityList);
     }
 }
