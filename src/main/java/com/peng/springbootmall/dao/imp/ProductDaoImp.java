@@ -1,5 +1,6 @@
 package com.peng.springbootmall.dao.imp;
 
+import com.peng.springbootmall.constant.ProductCategory;
 import com.peng.springbootmall.dao.ProductDao;
 import com.peng.springbootmall.dao.rowmapper.ProductRowMapper;
 import com.peng.springbootmall.dto.ProductDto;
@@ -114,6 +115,32 @@ public class ProductDaoImp implements ProductDao {
                 "created_date, last_modified_date from product";
 
         Map<String, Object> map = new HashMap<>();
+
+        List<ProductEntity> productEntityList = namedParameterJdbcTemplate.query(sql, map, productRowMapper);
+
+        if (productEntityList.size() > 0) {
+            return productEntityList;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public List<ProductEntity> getProductsBySearch(ProductCategory productCategory, String productName) {
+        String sql = "select product_id, product_name, category, image_url, price, stock, description, " +
+                "created_date, last_modified_date from product where 1=1";
+
+        Map<String, Object> map = new HashMap<>();
+
+        if(productCategory != null){
+            sql = sql + " and category = :category";
+            map.put("category",productCategory.name());
+        }
+
+        if(productName != null){
+            sql = sql + " and product_name like :productName";
+            map.put("productName", "%" + productName + "%");
+        }
 
         List<ProductEntity> productEntityList = namedParameterJdbcTemplate.query(sql, map, productRowMapper);
 
