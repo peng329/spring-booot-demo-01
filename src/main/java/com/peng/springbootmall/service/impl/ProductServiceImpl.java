@@ -3,6 +3,7 @@ package com.peng.springbootmall.service.impl;
 import com.peng.springbootmall.constant.ProductCategory;
 import com.peng.springbootmall.dao.ProductDao;
 import com.peng.springbootmall.dto.ProductDto;
+import com.peng.springbootmall.dto.ProductSearch;
 import com.peng.springbootmall.model.ProductEntity;
 import com.peng.springbootmall.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductEntity> getProductsBySearch(ProductCategory productCategory, String productName) {
-        return productDao.getProductsBySearch(productCategory, productName);
+    public List<ProductEntity> getProductsBySearch(ProductSearch productSearch) {
+        return productDao.getProductsBySearch(productSearch);
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.peng.springbootmall.constant.ProductCategory;
 import com.peng.springbootmall.dto.ProductDto;
+import com.peng.springbootmall.dto.ProductSearch;
 import com.peng.springbootmall.model.ProductEntity;
 import com.peng.springbootmall.service.ProductService;
 import jakarta.validation.Valid;
@@ -91,7 +92,12 @@ public class ProductController {
     //取得商品，且提供自訂查詢條件，例如商品類型，與商民名稱的關鍵字
     @GetMapping("/products")
     ResponseEntity<List<ProductEntity>> getProductsBySearch(@RequestParam(required = false) ProductCategory category, @RequestParam(required = false) String name){
-        List<ProductEntity> productEntityList = productService.getProductsBySearch(category,name);
+
+        //調用 service(包含後面的 dao) 的方法參數修改成一個類，避免後續查詢條件異動時，service 與 dao的 interface定義方法也要改，當然實作還是會動到
+        ProductSearch productSearch = new ProductSearch();
+        productSearch.setCategory(category);
+        productSearch.setName(name);
+        List<ProductEntity> productEntityList = productService.getProductsBySearch(productSearch);
 
         return ResponseEntity.status(HttpStatus.OK).body(productEntityList);
     }

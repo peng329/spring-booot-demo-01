@@ -1,10 +1,8 @@
 package com.peng.springbootmall.service;
 
-import com.peng.springbootmall.constant.ProductCategory;
 import com.peng.springbootmall.dto.ProductDto;
+import com.peng.springbootmall.dto.ProductSearch;
 import com.peng.springbootmall.model.ProductEntity;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -27,5 +25,5 @@ public interface ProductService {
     List<ProductEntity> getProducts();
 
     //取得商品，且提供自訂查詢條件，例如商品類型，與商民名稱的關鍵字
-    List<ProductEntity> getProductsBySearch(ProductCategory productCategory, String productName);
+    List<ProductEntity> getProductsBySearch(ProductSearch productSearch);
 }
