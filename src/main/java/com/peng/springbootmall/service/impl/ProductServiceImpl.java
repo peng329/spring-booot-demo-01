@@ -49,4 +49,9 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductEntity> getProductsBySearch(ProductSearch productSearch) {
         return productDao.getProductsBySearch(productSearch);
     }
+
+    @Override
+    public List<ProductEntity> getProductsOrder(String order) {
+        return productDao.getProductsOrder(order);
+    }
 }

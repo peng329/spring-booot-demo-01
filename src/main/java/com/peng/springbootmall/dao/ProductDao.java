@@ -26,4 +26,7 @@ public interface ProductDao {
 
     //取得商品，且提供自訂查詢條件，例如商品類型，與商民名稱的關鍵字
     List<ProductEntity> getProductsBySearch(ProductSearch productSearch);
+
+    //排序商品
+    List<ProductEntity> getProductsOrder(String order);
 }

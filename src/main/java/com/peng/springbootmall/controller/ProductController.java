@@ -102,4 +102,14 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productEntityList);
     }
 
-}
+    //排序商品
+    @GetMapping("/products/order")
+    ResponseEntity<List<ProductEntity>> getProductsOrder( @RequestParam(required = false) String order){
+
+        List<ProductEntity> productEntityList = productService.getProductsOrder(order);
+
+        return ResponseEntity.status(HttpStatus.OK).body(productEntityList);
+    }
+
+
+    }
