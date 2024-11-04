@@ -133,35 +133,18 @@ public class ProductDaoImp implements ProductDao {
 
         Map<String, Object> map = new HashMap<>();
 
+        //查詢條件
         if(productSearch.getCategory() != null){
             sql = sql + " and category = :category";
             map.put("category",productSearch.getCategory().name());
         }
-
         if(productSearch.getName() != null){
             sql = sql + " and product_name like :productName";
             map.put("productName", "%" + productSearch.getName() + "%");
         }
 
-        List<ProductEntity> productEntityList = namedParameterJdbcTemplate.query(sql, map, productRowMapper);
-
-        if (productEntityList.size() > 0) {
-            return productEntityList;
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public List<ProductEntity> getProductsOrder(String order) {
-        String sql = "select product_id, product_name, category, image_url, price, stock, description, " +
-                "created_date, last_modified_date  from product";
-
-        if(order != null){
-            sql = sql + " order by " + order;
-        }
-
-        Map<String, Object> map = new HashMap<>();
+        //排序
+        sql = sql + " order by " + productSearch.getOrder() + " " + productSearch.getOrderType();
 
         List<ProductEntity> productEntityList = namedParameterJdbcTemplate.query(sql, map, productRowMapper);
 
@@ -171,4 +154,24 @@ public class ProductDaoImp implements ProductDao {
             return null;
         }
     }
+
+//    @Override
+//    public List<ProductEntity> getProductsOrder(String order) {
+//        String sql = "select product_id, product_name, category, image_url, price, stock, description, " +
+//                "created_date, last_modified_date  from product";
+//
+//        if(order != null){
+//            sql = sql + " order by " + order;
+//        }
+//
+//        Map<String, Object> map = new HashMap<>();
+//
+//        List<ProductEntity> productEntityList = namedParameterJdbcTemplate.query(sql, map, productRowMapper);
+//
+//        if (productEntityList.size() > 0) {
+//            return productEntityList;
+//        } else {
+//            return null;
+//        }
+//    }
 }

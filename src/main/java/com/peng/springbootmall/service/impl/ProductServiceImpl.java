@@ -50,8 +50,8 @@ public class ProductServiceImpl implements ProductService {
         return productDao.getProductsBySearch(productSearch);
     }
 
-    @Override
-    public List<ProductEntity> getProductsOrder(String order) {
-        return productDao.getProductsOrder(order);
-    }
+//    @Override
+//    public List<ProductEntity> getProductsOrder(String order) {
+//        return productDao.getProductsOrder(order);
+//    }
 }

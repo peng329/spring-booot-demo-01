@@ -91,25 +91,30 @@ public class ProductController {
 
     //取得商品，且提供自訂查詢條件，例如商品類型，與商民名稱的關鍵字
     @GetMapping("/products")
-    ResponseEntity<List<ProductEntity>> getProductsBySearch(@RequestParam(required = false) ProductCategory category, @RequestParam(required = false) String name){
+    ResponseEntity<List<ProductEntity>> getProductsBySearch(@RequestParam(required = false) ProductCategory category,
+                                                            @RequestParam(required = false) String name,
+                                                            @RequestParam(defaultValue = "created_date") String order,
+                                                            @RequestParam(defaultValue = "DESC") String orderType){
 
         //調用 service(包含後面的 dao) 的方法參數修改成一個類，避免後續查詢條件異動時，service 與 dao的 interface定義方法也要改，當然實作還是會動到
         ProductSearch productSearch = new ProductSearch();
         productSearch.setCategory(category);
         productSearch.setName(name);
+        productSearch.setOrder(order);
+        productSearch.setOrderType(orderType);
         List<ProductEntity> productEntityList = productService.getProductsBySearch(productSearch);
 
         return ResponseEntity.status(HttpStatus.OK).body(productEntityList);
     }
 
-    //排序商品
-    @GetMapping("/products/order")
-    ResponseEntity<List<ProductEntity>> getProductsOrder( @RequestParam(required = false) String order){
-
-        List<ProductEntity> productEntityList = productService.getProductsOrder(order);
-
-        return ResponseEntity.status(HttpStatus.OK).body(productEntityList);
-    }
+//    //排序商品
+//    @GetMapping("/products/order")
+//    ResponseEntity<List<ProductEntity>> getProductsOrder( @RequestParam(required = false) String order){
+//
+//        List<ProductEntity> productEntityList = productService.getProductsOrder(order);
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(productEntityList);
+//    }
 
 
     }
