@@ -8,6 +8,8 @@ import com.peng.springbootmall.dto.ProductSearch;
 import com.peng.springbootmall.model.ProductEntity;
 import com.peng.springbootmall.service.ProductService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -90,11 +92,14 @@ public class ProductController {
 //    }
 
     //取得商品，且提供自訂查詢條件，例如商品類型，與商民名稱的關鍵字
+    @Valid
     @GetMapping("/products")
     ResponseEntity<List<ProductEntity>> getProductsBySearch(@RequestParam(required = false) ProductCategory category,
                                                             @RequestParam(required = false) String name,
                                                             @RequestParam(defaultValue = "created_date") String order,
-                                                            @RequestParam(defaultValue = "DESC") String orderType){
+                                                            @RequestParam(defaultValue = "DESC") String orderType,
+                                                            @RequestParam(defaultValue = "3") @Min(0) @Max(5) Integer limit,
+                                                            @RequestParam(defaultValue = "3") @Min(0) Integer offset){
 
         //調用 service(包含後面的 dao) 的方法參數修改成一個類，避免後續查詢條件異動時，service 與 dao的 interface定義方法也要改，當然實作還是會動到
         ProductSearch productSearch = new ProductSearch();
@@ -102,6 +107,9 @@ public class ProductController {
         productSearch.setName(name);
         productSearch.setOrder(order);
         productSearch.setOrderType(orderType);
+        productSearch.setLimit(limit);
+        productSearch.setOffset(offset);
+
         List<ProductEntity> productEntityList = productService.getProductsBySearch(productSearch);
 
         return ResponseEntity.status(HttpStatus.OK).body(productEntityList);

@@ -146,6 +146,11 @@ public class ProductDaoImp implements ProductDao {
         //排序
         sql = sql + " order by " + productSearch.getOrder() + " " + productSearch.getOrderType();
 
+        //分頁
+        sql = sql + " limit :limit offset :offset";
+        map.put("limit",productSearch.getLimit());
+        map.put("offset",productSearch.getOffset());
+
         List<ProductEntity> productEntityList = namedParameterJdbcTemplate.query(sql, map, productRowMapper);
 
         if (productEntityList.size() > 0) {

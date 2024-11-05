@@ -7,6 +7,8 @@ public class ProductSearch {
     String name;
     String order;
     String orderType;
+    Integer limit;
+    Integer offset;
 
 
     public ProductCategory getCategory() {
@@ -39,5 +41,21 @@ public class ProductSearch {
 
     public void setOrderType(String orderType) {
         this.orderType = orderType;
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
     }
 }
