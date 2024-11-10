@@ -29,4 +29,7 @@ public interface ProductDao {
 
 //    //排序商品
 //    List<ProductEntity> getProductsOrder(String order);
+
+    //取得總數，回因為條件不同，取得總數不同
+    Integer countProducts(ProductSearch productSearch);
 }

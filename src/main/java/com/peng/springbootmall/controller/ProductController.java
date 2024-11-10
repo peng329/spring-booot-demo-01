@@ -7,6 +7,7 @@ import com.peng.springbootmall.dto.ProductDto;
 import com.peng.springbootmall.dto.ProductSearch;
 import com.peng.springbootmall.model.ProductEntity;
 import com.peng.springbootmall.service.ProductService;
+import com.peng.springbootmall.util.Page;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -91,28 +92,41 @@ public class ProductController {
 //        return ResponseEntity.status(HttpStatus.OK).body(productEntityList);
 //    }
 
-    //取得商品，且提供自訂查詢條件，例如商品類型，與商民名稱的關鍵字
+    //返回再多加一個總數(讓前端可算底下最後頁數)，因此返回類型修改，新增一個 Page類
+    //取得商品，且提供自訂查詢條件，例如商品類型，與商品名稱的關鍵字
     @Valid
     @GetMapping("/products")
-    ResponseEntity<List<ProductEntity>> getProductsBySearch(@RequestParam(required = false) ProductCategory category,
+    ResponseEntity<Page<ProductEntity>> getProductsBySearch(@RequestParam(required = false) ProductCategory category,
                                                             @RequestParam(required = false) String name,
                                                             @RequestParam(defaultValue = "created_date") String order,
                                                             @RequestParam(defaultValue = "DESC") String orderType,
-                                                            @RequestParam(defaultValue = "3") @Min(0) @Max(5) Integer limit,
-                                                            @RequestParam(defaultValue = "3") @Min(0) Integer offset){
+                                                            @RequestParam(defaultValue = "10") @Min(0) @Max(100) Integer limit,
+                                                            @RequestParam(defaultValue = "0") @Min(0) Integer offset){
 
         //調用 service(包含後面的 dao) 的方法參數修改成一個類，避免後續查詢條件異動時，service 與 dao的 interface定義方法也要改，當然實作還是會動到
         ProductSearch productSearch = new ProductSearch();
         productSearch.setCategory(category);
         productSearch.setName(name);
+
+        //排序
         productSearch.setOrder(order);
         productSearch.setOrderType(orderType);
+
+        //分頁
         productSearch.setLimit(limit);
         productSearch.setOffset(offset);
 
         List<ProductEntity> productEntityList = productService.getProductsBySearch(productSearch);
+        Integer count = productService.countProducts(productSearch);
 
-        return ResponseEntity.status(HttpStatus.OK).body(productEntityList);
+        Page<ProductEntity> pageResultList =  new Page<ProductEntity> ();
+        pageResultList.setLimit(limit.intValue());
+        pageResultList.setOffSet(offset.intValue());
+        pageResultList.setCount(count);
+        pageResultList.setResult(productEntityList);
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(pageResultList);
     }
 
 //    //排序商品

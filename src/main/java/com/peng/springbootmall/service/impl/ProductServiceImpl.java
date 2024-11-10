@@ -54,4 +54,10 @@ public class ProductServiceImpl implements ProductService {
 //    public List<ProductEntity> getProductsOrder(String order) {
 //        return productDao.getProductsOrder(order);
 //    }
+
+
+    @Override
+    public Integer countProducts(ProductSearch productSearch) {
+        return productDao.countProducts(productSearch);
+    }
 }
