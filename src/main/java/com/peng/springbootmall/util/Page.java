@@ -4,10 +4,10 @@ import java.util.List;
 
 public class Page <T>{
     Integer limit;
-    Integer offSet;
+    Integer offset;
     Integer count;
 
-    List<T> result;
+    List<T> results;
 
     public Integer getLimit() {
         return limit;
@@ -17,12 +17,12 @@ public class Page <T>{
         this.limit = limit;
     }
 
-    public Integer getOffSet() {
-        return offSet;
+    public Integer getOffset() {
+        return offset;
     }
 
-    public void setOffSet(Integer offSet) {
-        this.offSet = offSet;
+    public void setOffset(Integer offset) {
+        this.offset = offset;
     }
 
     public Integer getCount() {
@@ -33,11 +33,11 @@ public class Page <T>{
         this.count = count;
     }
 
-    public List<T> getResult() {
-        return result;
+    public List<T> getResults() {
+        return results;
     }
 
-    public void setResult(List<T> result) {
-        this.result = result;
+    public void setResults(List<T> results) {
+        this.results = results;
     }
 }

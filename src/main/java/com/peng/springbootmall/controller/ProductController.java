@@ -1,7 +1,5 @@
 package com.peng.springbootmall.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.peng.springbootmall.constant.ProductCategory;
 import com.peng.springbootmall.dto.ProductDto;
 import com.peng.springbootmall.dto.ProductSearch;
@@ -14,6 +12,7 @@ import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -94,7 +93,8 @@ public class ProductController {
 
     //返回再多加一個總數(讓前端可算底下最後頁數)，因此返回類型修改，新增一個 Page類
     //取得商品，且提供自訂查詢條件，例如商品類型，與商品名稱的關鍵字
-    @Valid
+    //@Valid
+    @Validated
     @GetMapping("/products")
     ResponseEntity<Page<ProductEntity>> getProductsBySearch(@RequestParam(required = false) ProductCategory category,
                                                             @RequestParam(required = false) String name,
@@ -121,9 +121,9 @@ public class ProductController {
 
         Page<ProductEntity> pageResultList =  new Page<ProductEntity> ();
         pageResultList.setLimit(limit.intValue());
-        pageResultList.setOffSet(offset.intValue());
+        pageResultList.setOffset(offset.intValue());
         pageResultList.setCount(count);
-        pageResultList.setResult(productEntityList);
+        pageResultList.setResults(productEntityList);
 
 
         return ResponseEntity.status(HttpStatus.OK).body(pageResultList);
