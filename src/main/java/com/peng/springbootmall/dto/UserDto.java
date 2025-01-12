@@ -1,10 +1,12 @@
 package com.peng.springbootmall.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
 public class UserDto {
 
     @NotNull
+    @Email
     private String email;
     @NotNull
     private String password;

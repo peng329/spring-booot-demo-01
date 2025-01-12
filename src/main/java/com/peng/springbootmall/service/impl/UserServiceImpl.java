@@ -1,17 +1,26 @@
 package com.peng.springbootmall.service.impl;
 
+import com.mysql.cj.log.Log;
 import com.peng.springbootmall.dao.UserDao;
 import com.peng.springbootmall.dto.UserDto;
 import com.peng.springbootmall.model.UserEntity;
 import com.peng.springbootmall.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
+
 
 @Component
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+
+    final static private Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+
     @Override
     public UserEntity getById(Integer userId) {
         return userDao.getById(userId);
@@ -19,6 +28,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Integer userRegister(UserDto userDto) {
-        return userDao.userRegister(userDto);
+        UserEntity userEntity = userDao.getByEmail(userDto.getEmail());
+        if (userEntity != null){
+
+            log.warn("email:{}已經被註冊",userDto.getEmail());
+
+            //直接拋錯誤來終止
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }else{
+            return userDao.createUser(userDto);
+        }
     }
 }

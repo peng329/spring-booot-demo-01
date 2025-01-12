@@ -34,12 +34,12 @@ public class UserController {
     ResponseEntity<UserEntity> userRegister(@RequestBody @Valid UserDto userDto){
         Integer userId= userService.userRegister(userDto);
 
-        UserEntity userEntity = userService.getById(userId);
-
-        if(userEntity != null){
+        if(userId != null){
+            UserEntity userEntity = userService.getById(userId);
             return ResponseEntity.status(HttpStatus.CREATED).body(userEntity);
         }else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
         }
+
     }
 }

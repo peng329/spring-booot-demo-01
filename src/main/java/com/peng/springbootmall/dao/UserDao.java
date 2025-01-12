@@ -8,6 +8,10 @@ public interface UserDao {
     //取得特定會員資料
     UserEntity getById(Integer userId);
 
-    //註冊會員
-    Integer userRegister(UserDto userDto);
+    //用email取得會員資料
+    UserEntity getByEmail(String email);
+
+
+    //創建會員
+    Integer createUser(UserDto userDto);
 }
