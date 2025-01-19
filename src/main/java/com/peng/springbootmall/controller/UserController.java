@@ -21,10 +21,8 @@ public class UserController {
         UserEntity userEntity = userService.getById(userId);
 
         if(userEntity != null){
-            System.out.println("1");
             return ResponseEntity.status(HttpStatus.OK).body(userEntity);
         }else{
-            System.out.println("2");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     };
@@ -41,5 +39,17 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
         }
 
+    }
+
+    //會員登入
+    @PostMapping("/user/login")
+    ResponseEntity<UserEntity> userLogin(@RequestBody @Valid UserDto userDto){
+        UserEntity userEntity = userService.userLogin(userDto);
+
+        if(userEntity != null){
+            return ResponseEntity.status(HttpStatus.OK).body(userEntity);
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }

@@ -7,4 +7,6 @@ public interface UserService {
     UserEntity getById(Integer userId);
 
     Integer userRegister(UserDto userDto);
+
+    UserEntity userLogin(UserDto userDto);
 }

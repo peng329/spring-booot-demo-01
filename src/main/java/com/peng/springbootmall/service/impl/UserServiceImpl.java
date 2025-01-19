@@ -39,4 +39,23 @@ public class UserServiceImpl implements UserService {
             return userDao.createUser(userDto);
         }
     }
+
+    @Override
+    public UserEntity userLogin(UserDto userDto) {
+        UserEntity userEntity = userDao.getByEmail(userDto.getEmail());
+        if (userEntity == null){
+
+            log.warn("email:{}還沒註冊，輸入有誤",userDto.getEmail());
+            //直接拋錯誤來終止
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        if(!userEntity.getPassword().equals(userDto.getPassword())){
+            log.warn("密碼輸入有誤",userDto.getEmail());
+            //直接拋錯誤來終止
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        return userEntity;
+
+    }
 }
