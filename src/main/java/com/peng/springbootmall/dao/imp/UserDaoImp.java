@@ -10,7 +10,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.DigestUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -61,25 +63,21 @@ public class UserDaoImp implements UserDao {
         String sql ="INSERT INTO user (email, password, created_date, last_modified_date)" +
                 "  VALUES (:email, :password, :createdDate, :lastModifiedDate)";
 
-        System.out.println("---" );
+        //將密碼做 MD5 加密
+        String encryptPw = DigestUtils.md5DigestAsHex(userDto.getPassword().getBytes(StandardCharsets.UTF_8));
 
         Map<String, Object> map = new HashMap<>();
         map.put("email",userDto.getEmail());
-        map.put("password",userDto.getPassword());
+        map.put("password",encryptPw);
         Date now = new Date();
         map.put("createdDate",now);
         map.put("lastModifiedDate",now);
-
-        System.out.println("---" + userDto.getEmail());
-        System.out.println("---" + userDto.getPassword());
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         namedParameterJdbcTemplate.update(sql,new MapSqlParameterSource(map) , keyHolder );
 
         Integer userId = keyHolder.getKey().intValue();
-
-        System.out.println("---" + userId);
 
         return userId;
     }
